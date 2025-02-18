@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  w-server:
+    build: .
+    ports:
+      - "80:8090"
+    env_file: .env
+    depends_on:
+      - mariadb
+
+  mariadb:
+    image: mariadb:10.5
+    container_name: mariadb
+    env_file: .env
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    env_file: .env
+    ports:
+      - "8080:80"
+    depends_on:
+      - mariadb
