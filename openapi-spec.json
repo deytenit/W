@@ -1,0 +1,1308 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/api/users/{id}": {
+      "put": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "Edit user profile",
+        "description": "Allows a user to edit their profile or an admin to edit any user's profile.",
+        "operationId": "editUserProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the user to edit",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "jwt",
+            "in": "query",
+            "description": "JWT token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCredentialsEditForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User profile updated successfully",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden action",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "Delete a user",
+        "description": "Deletes the specified user. Only the user themselves or an admin can perform this action.",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the user to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "jwt",
+            "in": "query",
+            "description": "JWT token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "403": {
+            "description": "Forbidden action"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/api/votes/post/{id}": {
+      "get": {
+        "tags": [
+          "vote-controller"
+        ],
+        "summary": "Get user's vote on a post",
+        "description": "Fetches the vote status for a specific post.",
+        "operationId": "getPostVote",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the post to check the vote",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "jwt",
+            "in": "query",
+            "description": "JWT of the user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vote details retrieved successfully",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Post not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "vote-controller"
+        ],
+        "summary": "Vote on a post",
+        "description": "Allows a user to upvote or downvote a post.",
+        "operationId": "votePost",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the post to vote on",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "jwt",
+            "in": "query",
+            "description": "JWT of the user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "upvote",
+            "in": "query",
+            "description": "True for upvote, false for downvote",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vote recorded successfully",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Post not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/votes/discussion/{id}": {
+      "get": {
+        "tags": [
+          "vote-controller"
+        ],
+        "summary": "Get user's vote on a discussion",
+        "description": "Fetches the vote status for a specific discussion.",
+        "operationId": "getDiscussionVote",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the discussion to check the vote",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "jwt",
+            "in": "query",
+            "description": "JWT of the user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vote details retrieved successfully",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Discussion not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "vote-controller"
+        ],
+        "summary": "Vote on a discussion",
+        "description": "Allows a user to upvote or downvote a discussion.",
+        "operationId": "voteDiscussion",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the discussion to vote on",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "jwt",
+            "in": "query",
+            "description": "JWT of the user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "upvote",
+            "in": "query",
+            "description": "True for upvote, false for downvote",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vote recorded successfully",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Discussion not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/register": {
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "Register a new user",
+        "description": "Creates a new user account using the provided credentials.",
+        "operationId": "addUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCredentialsRegister"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/enter": {
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "Authenticate user and retrieve JWT",
+        "description": "Validates user credentials and returns a JWT if successful.",
+        "operationId": "findUserJwt",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCredentialsEnter"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "JWT retrieved successfully",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Wrong login or password",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/posts": {
+      "get": {
+        "tags": [
+          "post-controller"
+        ],
+        "summary": "Retrieve all posts",
+        "description": "Fetches a list of all posts.",
+        "operationId": "findPosts",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved posts",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "post-controller"
+        ],
+        "summary": "Create a new post",
+        "description": "Writes a new post. Requires user authentication via JWT.",
+        "operationId": "writePost",
+        "parameters": [
+          {
+            "name": "jwt",
+            "in": "query",
+            "description": "JWT token for user authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WritePostForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Post created successfully",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error due to media upload failure",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/discussions/post/{id}": {
+      "get": {
+        "tags": [
+          "discussion-controller"
+        ],
+        "summary": "Find discussions by post ID",
+        "description": "Retrieves a list of discussions associated with the given post ID.",
+        "operationId": "findDiscussions",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the post to find discussions for",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved discussions",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Discussion"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Post not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Discussion"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "discussion-controller"
+        ],
+        "summary": "Write a new discussion",
+        "description": "Creates a new discussion related to a post. Optionally, it can be a reply to an existing discussion.",
+        "operationId": "writeDiscussion",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the post to write the discussion for",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "jwt",
+            "in": "query",
+            "description": "JWT token for user authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "parentDiscussionId",
+            "in": "query",
+            "description": "Optional parent discussion ID for nested discussions",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Discussion"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Discussion created successfully",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors or parent discussion not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Post not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "Retrieve all users",
+        "description": "Fetches a list of all registered users.",
+        "operationId": "findUsers",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved users",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/jwt": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "summary": "Retrieve user by JWT",
+        "description": "Finds a user based on the provided JWT.",
+        "operationId": "findUserByJwt",
+        "parameters": [
+          {
+            "name": "jwt",
+            "in": "query",
+            "description": "JWT for the user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User retrieved successfully",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/posts/{id}": {
+      "get": {
+        "tags": [
+          "post-controller"
+        ],
+        "summary": "Find a post by ID",
+        "description": "Retrieves a specific post by its ID, incrementing its view count.",
+        "operationId": "findPost",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the post to retrieve",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "jwt",
+            "in": "query",
+            "description": "JWT token for view mapping",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved post",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Post not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "post-controller"
+        ],
+        "summary": "Delete a post",
+        "description": "Deletes the specified post. Only the author or an admin can perform this action.",
+        "operationId": "deletePost",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the post to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "jwt",
+            "in": "query",
+            "description": "JWT token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "403": {
+            "description": "Forbidden action"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        }
+      }
+    },
+    "/api/posts/user/{userId}": {
+      "get": {
+        "tags": [
+          "post-controller"
+        ],
+        "summary": "Retrieve all posts by user ID",
+        "description": "Fetches a list of posts created by a specific user.",
+        "operationId": "findPostsByUserId",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the user whose posts are to be retrieved",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved user's posts",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user ID provided",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No posts found for the specified user",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/discussions/user/{userId}": {
+      "get": {
+        "tags": [
+          "discussion-controller"
+        ],
+        "summary": "Retrieve all discussions by user ID",
+        "description": "Fetches a list of discussions created by a specific user.",
+        "operationId": "findDiscussionsByUserId",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of the user whose discussions are to be retrieved",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved user's discussions",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Discussion"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user ID provided",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Discussion"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No discussions found for the specified user",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Discussion"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/discussions/{id}": {
+      "delete": {
+        "tags": [
+          "discussion-controller"
+        ],
+        "summary": "Delete a discussion",
+        "description": "Deletes the specified discussion. Only the author or an admin can perform this action.",
+        "operationId": "deleteDiscussion",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the discussion to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "jwt",
+            "in": "query",
+            "description": "JWT token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Discussion deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "403": {
+            "description": "Forbidden action"
+          },
+          "404": {
+            "description": "Discussion not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserCredentialsEditForm": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "description": "Updated user profile"
+      },
+      "UserCredentialsRegister": {
+        "required": [
+          "login",
+          "name",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "login": {
+            "maxLength": 24,
+            "minLength": 2,
+            "pattern": "[a-zA-Z]{2,24}",
+            "type": "string"
+          },
+          "password": {
+            "maxLength": 60,
+            "minLength": 8,
+            "type": "string"
+          }
+        },
+        "description": "User credentials for registration"
+      },
+      "UserCredentialsEnter": {
+        "required": [
+          "login",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "login": {
+            "maxLength": 24,
+            "minLength": 2,
+            "pattern": "[a-zA-Z]{2,24}",
+            "type": "string"
+          },
+          "password": {
+            "maxLength": 60,
+            "minLength": 8,
+            "type": "string"
+          }
+        },
+        "description": "User credentials for login"
+      },
+      "WritePostForm": {
+        "required": [
+          "text",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "text": {
+            "maxLength": 10000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "media": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "binary"
+            }
+          },
+          "image": {
+            "type": "array",
+            "writeOnly": true,
+            "items": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        },
+        "description": "Post data to create a new post"
+      },
+      "Discussion": {
+        "required": [
+          "text"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "post": {
+            "$ref": "#/components/schemas/Post"
+          },
+          "parentDiscussion": {
+            "$ref": "#/components/schemas/Discussion"
+          },
+          "text": {
+            "maxLength": 65000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "creationTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "parentDiscussionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "voteCount": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "Discussion object to be created"
+      },
+      "Post": {
+        "required": [
+          "text",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "text": {
+            "maxLength": 10000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "media": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "discussions": {
+            "type": "array",
+            "writeOnly": true,
+            "items": {
+              "$ref": "#/components/schemas/Discussion"
+            }
+          },
+          "viewCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "creationTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "discussionCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "voteCount": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "User": {
+        "required": [
+          "login",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "login": {
+            "maxLength": 24,
+            "minLength": 2,
+            "pattern": "[a-zA-Z]{2,24}",
+            "type": "string"
+          },
+          "admin": {
+            "type": "boolean"
+          },
+          "creationTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}
